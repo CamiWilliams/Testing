@@ -67,7 +67,7 @@ describe("ArrayMapNode", function() {
   "as the old one, and if the key exists, and value is NOT_SET," +
   "remove the key out of the new map", function() {
     var map = new Immutable.ArrayMapNode(0, [[1, 'a'], [2, 'b']]);
-    var res = map.update(1, 0, 0, 2, 'c');
+    var res = map.update(1, 0, 0, 2, Immutable.NOT_SET);
     var toComp = new Immutable.ArrayMapNode(1, [[1, 'a']]);
     expect(res.ownerID).toBe(toComp.ownerID);
     for (var i=0; i<res.entries.length; i++) {
@@ -76,11 +76,11 @@ describe("ArrayMapNode", function() {
     }
   });
 
-  it("remove element if key is in the map and value is NOT_SET. " +
+  it("removes element if key is in the map and value is NOT_SET. " +
   "The index of the key in map is not at the end", function() {
     var map = new Immutable.ArrayMapNode(0, [[1, 'a'], [2, 'b']]);
-    var res = map.update(0, 0, 0, 2, Immutable.NOT_SET);
-    var toComp = new Immutable.ArrayMapNode(0, [[2, 'a']]);
+    var res = map.update(0, 0, 0, 1, Immutable.NOT_SET);
+    var toComp = new Immutable.ArrayMapNode(0, [[2, 'b']]);
     expect(res.ownerID).toBe(toComp.ownerID);
     for (var i=0; i<res.entries.length; i++) {
       expect(res.entries[i][0]).toBe(toComp.entries[i][0]);
@@ -92,8 +92,8 @@ describe("ArrayMapNode", function() {
   "as the old one, and if the key exists, and value is NOT_SET," +
   "remove the key out of the new map. The index of the key is not at the end", function() {
     var map = new Immutable.ArrayMapNode(0, [[1, 'a'], [2, 'b']]);
-    var res = map.update(1, 0, 0, 1, 'c');
-    var toComp = new Immutable.ArrayMapNode(1, [[1, 'a']]);
+    var res = map.update(1, 0, 0, 1, Immutable.NOT_SET);
+    var toComp = new Immutable.ArrayMapNode(1, [[2, 'b']]);
     expect(res.ownerID).toBe(toComp.ownerID);
     for (var i=0; i<res.entries.length; i++) {
       expect(res.entries[i][0]).toBe(toComp.entries[i][0]);
