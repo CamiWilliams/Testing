@@ -83,6 +83,7 @@ ArrayMapNode.prototype.update = function(ownerID, shift, keyHash, key, value, di
   }
   var exists = idx < len;
 
+  //2 CLAUSES (1)
   if (exists ? entries[idx][1] === value : removed) { //Node #5, 6, 7
     return this; //Node #8
   }
@@ -90,14 +91,17 @@ ArrayMapNode.prototype.update = function(ownerID, shift, keyHash, key, value, di
   SetRef(didAlter);
   (removed || !exists) && SetRef(didChangeSize); //Node #9, 11
 
+  //2 CLAUSES (2)
   if (removed && entries.length === 1) { //Node #10
     return; //Node #12
   }
 
+  //3 CLAUSES (3)
   if (!exists && !removed && entries.length >= MAX_ARRAY_MAP_SIZE) { //Node #13
     return createNodes(ownerID, entries, key, value); //Node #14
   }
 
+  //2 CLAUSES (4)
   var isEditable = ownerID && ownerID === this.ownerID;
   var newEntries = isEditable ? entries : arrCopy(entries); //Node #15, 16, 17
 
