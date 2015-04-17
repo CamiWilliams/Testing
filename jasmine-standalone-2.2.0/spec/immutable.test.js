@@ -26,9 +26,7 @@ describe("ArrayMapNode", function() {
       }
     });
 
-  //EPC [1, 2, 3], [2, 3, 5], [3, 5, 6], [5, 6, 9], [6, 9, 11], [9, 11, 10], [11, 10, 13],
-  //[10, 13, 15], [13, 15, 17], [15, 17, 18], [17, 18, 19], [18, 19, 21],
-  //[19, 21, 24], [21, 24, 25], [24, 25, 26]
+  //EPC [1, 2, 3], [2, 3, 5], [3, 5, 6], [5, 6, 8]
   it("returns itself if key and value already exist", function() {
     var map = new Immutable.ArrayMapNode(0, [[1,'a'],[2,'b']]);
     var res = map.update(0, 0, 0, 1, 'a', {value: false}, {value: false});
