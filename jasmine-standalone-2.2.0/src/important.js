@@ -133,3 +133,118 @@ function arrCopy(arr, offset) {
   }
   return newArr;
 }
+
+
+
+
+
+
+
+
+function Range(start, end, step) {
+  if (!(this instanceof Range)) {
+    return new Range(start, end, step);
+  }
+  invariant(step !== 0, 'Cannot step a Range by 0');
+  start = start || 0;
+  if (end === undefined) {
+    end = Infinity;
+  }
+  step = step === undefined ? 1 : Math.abs(step);
+  if (end < start) {
+    step = -step;
+  }
+  this._start = start;
+  this._end = end;
+  this._step = step;
+  this.size = Math.max(0, Math.ceil((end - start) / step - 1) + 1);
+  if (this.size === 0) {
+    if (EMPTY_RANGE) {
+      return EMPTY_RANGE;
+    }
+    EMPTY_RANGE = this;
+  }
+}
+
+Range.prototype.toString = function() {
+  if (this.size === 0) {
+    return 'Range []';
+  }
+  return 'Range [ ' +
+    this._start + '...' + this._end +
+    (this._step > 1 ? ' by ' + this._step : '') +
+  ' ]';
+};
+
+Range.prototype.get = function(index, notSetValue) {
+  return this.has(index) ?
+    this._start + wrapIndex(this, index) * this._step :
+    notSetValue;
+};
+
+Range.prototype.includes = function(searchValue) {
+  var possibleIndex = (searchValue - this._start) / this._step;
+  return possibleIndex >= 0 &&
+    possibleIndex < this.size &&
+    possibleIndex === Math.floor(possibleIndex);
+};
+
+Range.prototype.slice = function(begin, end) {
+  if (wholeSlice(begin, end, this.size)) {
+    return this;
+  }
+  begin = resolveBegin(begin, this.size);
+  end = resolveEnd(end, this.size);
+  if (end <= begin) {
+    return new Range(0, 0);
+  }
+  return new Range(this.get(begin, this._end), this.get(end, this._end), this._step);
+};
+
+Range.prototype.indexOf = function(searchValue) {
+  var offsetValue = searchValue - this._start;
+  if (offsetValue % this._step === 0) {
+    var index = offsetValue / this._step;
+    if (index >= 0 && index < this.size) {
+      return index
+    }
+  }
+  return -1;
+};
+
+Range.prototype.lastIndexOf = function(searchValue) {
+  return this.indexOf(searchValue);
+};
+
+Range.prototype.__iterate = function(fn, reverse) {
+  var maxIndex = this.size - 1;
+  var step = this._step;
+  var value = reverse ? this._start + maxIndex * step : this._start;
+  for (var ii = 0; ii <= maxIndex; ii++) {
+    if (fn(value, ii, this) === false) {
+      return ii + 1;
+    }
+    value += reverse ? -step : step;
+  }
+  return ii;
+};
+
+Range.prototype.__iterator = function(type, reverse) {
+  var maxIndex = this.size - 1;
+  var step = this._step;
+  var value = reverse ? this._start + maxIndex * step : this._start;
+  var ii = 0;
+  return new src_Iterator__Iterator(function()  {
+    var v = value;
+    value += reverse ? -step : step;
+    return ii > maxIndex ? iteratorDone() : iteratorValue(type, ii++, v);
+  });
+};
+
+Range.prototype.equals = function(other) {
+  return other instanceof Range ?
+    this._start === other._start &&
+    this._end === other._end &&
+    this._step === other._step :
+    deepEqual(this, other);
+};
