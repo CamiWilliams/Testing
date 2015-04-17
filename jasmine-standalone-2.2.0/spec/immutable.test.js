@@ -68,7 +68,6 @@ describe("ArrayMapNode", function() {
     }
   });
 
-  //EPC [1, 2, 3], [2, 3, 5], [5, 6, 8]
   // [11,10,12]
   it("returns undefined if there is only one key in the map and that key is called on update with value == NOT_SET", function() {
     var map = new Immutable.ArrayMapNode(0, [[1, 'a']]);
