@@ -76,47 +76,47 @@ ArrayMapNode.prototype.update = function(ownerID, shift, keyHash, key, value, di
 
   var entries = this.entries;
   var idx = 0;
-  for (var len = entries.length; idx < len; idx++) {
-    if (is(key, entries[idx][0])) {
+  for (var len = entries.length; idx < len; idx++) { //Node #2, 4
+    if (is(key, entries[idx][0])) { //Node #3
       break;
     }
   }
   var exists = idx < len;
 
-  if (exists ? entries[idx][1] === value : removed) {
-    return this;
+  if (exists ? entries[idx][1] === value : removed) { //Node #5, 6, 7
+    return this; //Node #8
   }
 
   SetRef(didAlter);
-  (removed || !exists) && SetRef(didChangeSize);
+  (removed || !exists) && SetRef(didChangeSize); //Node #9, 11
 
-  if (removed && entries.length === 1) {
-    return; // undefined
+  if (removed && entries.length === 1) { //Node #10
+    return; //Node #12
   }
 
-  if (!exists && !removed && entries.length >= MAX_ARRAY_MAP_SIZE) {
-    return createNodes(ownerID, entries, key, value);
+  if (!exists && !removed && entries.length >= MAX_ARRAY_MAP_SIZE) { //Node #13
+    return createNodes(ownerID, entries, key, value); //Node #14
   }
 
   var isEditable = ownerID && ownerID === this.ownerID;
-  var newEntries = isEditable ? entries : arrCopy(entries);
+  var newEntries = isEditable ? entries : arrCopy(entries); //Node #15, 16, 17
 
-  if (exists) {
-    if (removed) {
-      idx === len - 1 ? newEntries.pop() : (newEntries[idx] = newEntries.pop());
-    } else {
+  if (exists) { //Node #18
+    if (removed) { //Node #19
+      idx === len - 1 ? newEntries.pop() : (newEntries[idx] = newEntries.pop()); //Node #21, 23, 24
+    } else { //Node #22
       newEntries[idx] = [key, value];
     }
-  } else {
+  } else { //Node #20
     newEntries.push([key, value]);
   }
 
-  if (isEditable) {
+  if (isEditable) { //Node #25
     this.entries = newEntries;
-    return this;
+    return this; //Node #26
   }
 
-  return new ArrayMapNode(ownerID, newEntries);
+  return new ArrayMapNode(ownerID, newEntries); //Node #27
 };
 
 
