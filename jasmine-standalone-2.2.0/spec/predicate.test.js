@@ -1,4 +1,4 @@
-describe("ArrayMapNode", function() {
+describe("ArrayMapNodePredicate", function() {
   //-----------------------------------------------------------------------
   //   2 Clauses: if(exists ? entries[idx][1] === value : removed)
   //                   A                B1                   B2
@@ -364,34 +364,74 @@ describe("ArrayMapNode", function() {
       //   Major is A
       //   A  |  B  |  P
       //------------------
-      //   T  |  T  |
-      //   T  |  F  |
-      //   F  |  T  |
-      //   F  |  F  |
+      //   T  |  T  |  T   <----
+      //   T  |  F  |  F
+      //   F  |  T  |  F
+      //   F  |  F  |  F
+      it("adds new element if key doesn't exist and value is not NOT_SET, with ownerID stays the same", function() {
+        var map = new Immutable.ArrayMapNode(1, [[1, 'a'], [2, 'b']]);
+        var res = map.update(1, 0, 0, 3, 'c');
+        var toComp = new Immutable.ArrayMapNode(1, [[1, 'a'], [2, 'b'],[3, 'c']]);
+        expect(res.ownerID).toBe(toComp.ownerID);
+        for (var i=0; i<res.entries.length; i++) {
+          expect(res.entries[i][0]).toBe(toComp.entries[i][0]);
+          expect(res.entries[i][1]).toBe(toComp.entries[i][1]);
+        }
+      });
 
       //   Major is A
       //   A  |  B  |  P
       //------------------
-      //   T  |  T  |
-      //   T  |  F  |
-      //   F  |  T  |
-      //   F  |  F  |
+      //   T  |  T  |  T
+      //   T  |  F  |  F
+      //   F  |  T  |  F   <----
+      //   F  |  F  |  F
+      it("determines if an ArrayMapNode called by update with a found entry at the last index will" +
+      "return an equal copy of an ArrayMapNode", function () {
+        var map = new Immutable.ArrayMapNode(0, [[1,'a'],[2,'b']]);
+        var res = map.update(0, 0, 0, 2, Immutable.NOT_SET, {value: false}, {value: false});
+        var toComp = new Immutable.ArrayMapNode(0, [[1,'a'],[2,'b']]);
+        expect(res.ownerID).toBe(toComp.ownerID);
+        for (var i=0; i<res.entries.length; i++) {
+          expect(Immutable.is(res.entries[i][0], toComp.entries[i][0])).toBeTruthy();
+          expect(res.entries[i][1]).toBe(toComp.entries[i][1]);
+        }
+      });
 
       //   Major is B
       //   A  |  B  |  P
       //------------------
-      //   T  |  T  |
-      //   T  |  F  |
-      //   F  |  T  |
-      //   F  |  F  |
+      //   T  |  T  |  T   <----
+      //   T  |  F  |  F
+      //   F  |  T  |  F
+      //   F  |  F  |  F
+      it("adds new element with ownerID stays the same", function() {
+        var map = new Immutable.ArrayMapNode(1, [[20, 'x'], [25, 'z']]);
+        var res = map.update(1, 0, 0, 3, 'c');
+        var toComp = new Immutable.ArrayMapNode(1, [[20, 'x'], [25, 'z'],[3, 'c']]);
+        expect(res.ownerID).toBe(toComp.ownerID);
+        for (var i=0; i<res.entries.length; i++) {
+          expect(res.entries[i][0]).toBe(toComp.entries[i][0]);
+          expect(res.entries[i][1]).toBe(toComp.entries[i][1]);
+        }
+      }); //NEW TEST!!!
 
       //   Major is B
       //   A  |  B  |  P
       //------------------
-      //   T  |  T  |
-      //   T  |  F  |
-      //   F  |  T  |
-      //   F  |  F  |
-
+      //   T  |  T  |  T
+      //   T  |  F  |  F   <----
+      //   F  |  T  |  F
+      //   F  |  F  |  F
+      it("does nothing if key doesn't exist and value is not NOT_SET, with ownerID changes", function() {
+        var map = new Immutable.ArrayMapNode(1, [[1, 'a'], [2, 'b']]);
+        var res = map.update(20, 0, 0, 3, 'c');
+        var toComp = new Immutable.ArrayMapNode(1, [[1, 'a'], [2, 'b'],[3, 'c']]);
+        expect(res.ownerID).toBe(toComp.ownerID);
+        for (var i=0; i<res.entries.length; i++) {
+          expect(res.entries[i][0]).not.toBe(toComp.entries[i][0]);
+          expect(res.entries[i][1]).not.toBe(toComp.entries[i][1]);
+        }
+      }); //NEW TEST!!!
 
 });
