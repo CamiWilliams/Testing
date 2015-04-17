@@ -190,9 +190,21 @@ describe("ArrayMapNode", function() {
     var map = new Immutable.ArrayMapNode(1, [[1,'a'],[2,'b'],[3,'c'],[4,'d'],[5,'e'],
       [6,'f'],[7,'g'],[8,'h']]);
     var res = map.update(1, 0, 0, 9, 'i');
-    var toComp = new ValueNode(1, undefined, [9, 'i']);
+    // console.log(res);
+    var nodes = [new Immutable.ValueNode(1, undefined, [1,'a']),
+                  new Immutable.ValueNode(1, undefined, [2,'b']),
+                  new Immutable.ValueNode(1, undefined, [3,'c']),
+                  new Immutable.ValueNode(1, undefined, [4,'d']),
+                  new Immutable.ValueNode(1, undefined, [5,'e']),
+                  new Immutable.ValueNode(1, undefined, [6,'f']),
+                  new Immutable.ValueNode(1, undefined, [7,'g']),
+                  new Immutable.ValueNode(1, undefined, [8,'h']),
+                  new Immutable.ValueNode(1, undefined, [9,'i'])]
+    var toComp = new Immutable.BitmapIndexedNode(1, undefined, nodes);
     expect(res.ownerID).toBe(toComp.ownerID);
-    expect(res.entry[0]).toBe(toComp.entry[0]);
-    expect(res.entry[1]).toBe(toComp.entry[0]);
+    for (var i=0; i<res.nodes.length; i++) {
+      expect(res.nodes[i].entry[0]).toBe(toComp.nodes[i].entry[0]);
+      expect(res.nodes[i].entry[1]).toBe(toComp.nodes[i].entry[1]);
+    }
   });
 })

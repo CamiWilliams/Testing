@@ -4903,7 +4903,8 @@
     fromJS: fromJS,
     ArrayMapNode: ArrayMapNode,
     NOT_SET: NOT_SET,
-    ValueNode: ValueNode
+    ValueNode: ValueNode,
+    BitmapIndexedNode: BitmapIndexedNode
   };
 
   return Immutable;
