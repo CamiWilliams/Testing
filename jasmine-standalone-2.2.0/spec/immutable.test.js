@@ -1,7 +1,7 @@
 describe("ArrayMapNode", function() {
 
   // NEW TEST
-    // EPC 14 : [6, 9, 10] 
+    // EPC 14 : [6, 9, 10]
     it("returns itself if key is in the map and value is NOT_SET/invalid", function() {
       var map = new Immutable.ArrayMapNode(0, [[1,'a'],[2,'b']]);
       var res = map.update(0, 0, 0, 2, Immutable.NOT_SET, {value: true}, {value: false});
@@ -86,20 +86,6 @@ describe("ArrayMapNode", function() {
     expect(res.ownerID).toBe(toComp.ownerID);
     for (var i=0; i<res.entries.length; i++) {
       expect(res.entries[i][0]).toBe(toComp.entries[i][0]);
-      expect(res.entries[i][1]).toBe(toComp.entries[i][1]);
-    }
-  });
-
-  //EPC [1, 2, 3], [2, 3, 5], [3, 5, 6], [5, 6, 9], [6, 9, 11], [9, 11, 10],
-  //[11, 10, 13], [10, 13, 15], [13, 15, 17],  [15, 17, 18], [17, 18, 19],
-  //[18, 19, 22], [19, 22, 25], [22, 25, 26]
-  it("adds new element if key doesn't exist and value is not NOT_SET, with ownerID stays the same", function() {
-    var map = new Immutable.ArrayMapNode(0, [[1, 'a'], [2, 'b']]);
-    var res = map.update(0, 0, 0, 1, 'c');
-    var toComp = new Immutable.ArrayMapNode(0, [[1, 'a'], [2, 'b'],[3, 'c']]);
-    expect(res.ownerID).toBe(toComp.ownerID);
-    for (var i=0; i<res.entries.length; i++) {
-      expect(Immutable.is(res.entries[i][0], toComp.entries[i][0])).toBeTruthy();
       expect(res.entries[i][1]).toBe(toComp.entries[i][1]);
     }
   });
