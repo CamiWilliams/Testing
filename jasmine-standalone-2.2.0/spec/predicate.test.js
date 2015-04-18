@@ -411,6 +411,7 @@ describe("ArrayMapNodePredicate", function() {
       //   Major is B
       //   A  |  B  |  P
       //------------------
+<<<<<<< Updated upstream
       //   T  |  T  |  T
       //   T  |  F  |  F   <----
       //   F  |  T  |  F
@@ -422,3 +423,12 @@ describe("ArrayMapNodePredicate", function() {
         expect(res.ownerID).not.toBe(toComp.ownerID);
       }); //NEW TEST!!!
 });
+=======
+      //   T  |  T  |
+      //   T  |  F  |
+      //   F  |  T  |
+      //   F  |  F  |
+
+
+})
+>>>>>>> Stashed changes
