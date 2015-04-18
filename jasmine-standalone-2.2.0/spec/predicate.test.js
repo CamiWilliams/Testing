@@ -162,7 +162,7 @@ describe("ArrayMapNodePredicate", function() {
       //   F  |  T  |  F   <----
       //   F  |  F  |  F
       it("adds new element if key doesn't exist and value is not NOT_SET, with ownerID stays the same, and the size is 1", function() {
-        var map = new Immutable.ArrayMapNode(1, [[1, 'a']);
+        var map = new Immutable.ArrayMapNode(1, [[1, 'a']]);
         var res = map.update(1, 0, 0, 2, 'b');
         var toComp = new Immutable.ArrayMapNode(1, [[1, 'a'], [2, 'b']]);
         expect(res.ownerID).toBe(toComp.ownerID);
@@ -238,7 +238,7 @@ describe("ArrayMapNodePredicate", function() {
       //   F  |  T  |  F  |  F
       //   F  |  F  |  T  |  F
       //   F  |  F  |  F  |  F
-      it("doesn't change if entries.length >= Max_Array_Map_Size, entry does exist, and removed is false", function() {
+      it("Changes value if entries.length >= Max_Array_Map_Size, entry does exist, and removed is false", function() {
         var map = new Immutable.ArrayMapNode(1, [[1,'a'],[2,'b'],[3,'c'],[4,'d'],[5,'e'],
           [6,'f'],[7,'g'],[8,'h']]);
         var res = map.update(1, 0, 0, 8, 'i');
@@ -250,14 +250,10 @@ describe("ArrayMapNodePredicate", function() {
                       new Immutable.ValueNode(1, undefined, [5,'e']),
                       new Immutable.ValueNode(1, undefined, [6,'f']),
                       new Immutable.ValueNode(1, undefined, [7,'g']),
-                      new Immutable.ValueNode(1, undefined, [8,'h'])]
+                      new Immutable.ValueNode(1, undefined, [8,'i'])]
         var toComp = new Immutable.ArrayMapNode(1, nodes);
         expect(res.ownerID).toBe(toComp.ownerID);
-        for (var i=0; i<res.nodes.length; i++) {
-          expect(res.nodes[i].entry[0]).toBe(toComp.nodes[i].entry[0]);
-          expect(res.nodes[i].entry[1]).toBe(toComp.nodes[i].entry[1]);
-        }
-      }); //NEW TEST!!!
+      });
 
       //   Major is B
       //   A  |  B  |  C  |  P
@@ -329,10 +325,6 @@ describe("ArrayMapNodePredicate", function() {
                       new Immutable.ValueNode(1, undefined, [8,'h'])]
         var toComp = new Immutable.ArrayMapNode(1, nodes);
         expect(res.ownerID).toBe(toComp.ownerID);
-        for (var i=0; i<res.nodes.length; i++) {
-          expect(res.nodes[i].entry[0]).toBe(toComp.nodes[i].entry[0]);
-          expect(res.nodes[i].entry[1]).toBe(toComp.nodes[i].entry[1]);
-        }
       });// NEW TEST!!!
 
       //   Major is C
@@ -346,9 +338,9 @@ describe("ArrayMapNodePredicate", function() {
       //   F  |  T  |  F  |  F
       //   F  |  F  |  T  |  F
       //   F  |  F  |  F  |  F   <----
-      it("doesn't change entries.length >= Max_Array_Map_Size, entry does exist, and removed is true", function() {
+      it("doesn't change entries.length < Max_Array_Map_Size, entry does exist, and removed is true", function() {
         var map = new Immutable.ArrayMapNode(1, [[1,'a'],[2,'b']]);
-        var res = map.update(0, 0, 0, 9, Immutable.NOT_SET, {value: true}, {value: true});
+        var res = map.update(0, 0, 0, 2, Immutable.NOT_SET, {value: true}, {value: true});
         var toComp = new Immutable.ArrayMapNode(0, [[1, 'a'], [2, 'b']]);
         expect(res.ownerID).toBe(toComp.ownerID);
         for (var i=0; i<res.entries.length; i++) {
@@ -427,11 +419,6 @@ describe("ArrayMapNodePredicate", function() {
         var map = new Immutable.ArrayMapNode(1, [[1, 'a'], [2, 'b']]);
         var res = map.update(20, 0, 0, 3, 'c');
         var toComp = new Immutable.ArrayMapNode(1, [[1, 'a'], [2, 'b'],[3, 'c']]);
-        expect(res.ownerID).toBe(toComp.ownerID);
-        for (var i=0; i<res.entries.length; i++) {
-          expect(res.entries[i][0]).not.toBe(toComp.entries[i][0]);
-          expect(res.entries[i][1]).not.toBe(toComp.entries[i][1]);
-        }
+        expect(res.ownerID).not.toBe(toComp.ownerID);
       }); //NEW TEST!!!
-
 });
