@@ -58,4 +58,29 @@ describe("Range", function() {
   it("when start >= 0, end >=0, step == 0", function() {
     expect( function() {var range = Immutable.Range(10, 100, 0);} ).toThrow(new Error("Cannot step a Range by 0"));
   });
+
+  // Slice function
+  it("when begin and end >= 0", function() {
+    var range = Immutable.Range(0, 10, 2);
+    var res = range.slice(1, 4);
+    expect(res._start).toBe(2);
+    expect(res._end).toBe(8);
+    expect(res._step).toBe(2);
+  });
+
+  it("when begin and end are both undefined", function() {
+    var range = Immutable.Range(0, 10, 2);
+    var res = range.slice();
+    expect(res._start).toBe(0);
+    expect(res._end).toBe(10);
+    expect(res._step).toBe(2);
+  });
+
+  it("when begin and end < 0", function() {
+    var range = Immutable.Range(0, 10, 2);
+    var res = range.slice(-1, -3);
+    expect(res._start).toBe(0);
+    expect(res._end).toBe(0);
+    expect(res._step).toBe(1);
+  });
 })

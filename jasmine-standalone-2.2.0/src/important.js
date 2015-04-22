@@ -248,3 +248,28 @@ Range.prototype.equals = function(other) {
     this._step === other._step :
     deepEqual(this, other);
 };
+
+
+
+function resolveIndex(index, size, defaultIndex) {
+  return index === undefined ?
+    defaultIndex :
+    index < 0 ?
+      Math.max(0, size + index) :
+      size === undefined ?
+        index :
+        Math.min(size, index);
+}
+
+function resolveBegin(begin, size) {
+  return resolveIndex(begin, size, 0);
+}
+
+function resolveEnd(end, size) {
+  return resolveIndex(end, size, size);
+}
+
+function wholeSlice(begin, end, size) {
+  return (begin === 0 || (size !== undefined && begin <= -size)) &&
+    (end === undefined || (size !== undefined && end >= size));
+}
