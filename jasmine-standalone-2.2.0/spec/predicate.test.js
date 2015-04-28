@@ -124,7 +124,7 @@ describe("ArrayMapNodePredicate", function() {
       //   T  |  F  |  F  <----
       //   F  |  T  |  F
       //   F  |  F  |  F
-      it("adds new element if key doesn't exist and value is NOT_SET, with ownerID stays the same", function() {
+      it("adds new element when the key doesn't exist, removed is true, and ownerID is the original", function() {
         var map = new Immutable.ArrayMapNode(0, [[1,'a'],[2,'b']]);
         var res = map.update(1, 0, 0, 2, Immutable.NOT_SET);
         var toComp = new Immutable.ArrayMapNode(1, [[1, 'a'], [2, 'b']]);
@@ -142,8 +142,7 @@ describe("ArrayMapNodePredicate", function() {
       //   T  |  F  |  F
       //   F  |  T  |  F
       //   F  |  F  |  F  <----
-      it("determines if an ArrayMapNode called by update with a found entry at the last index will" +
-      "return an equal copy of an ArrayMapNode", function () {
+      it("returns a copy of the original ArrayMapNode when the entry is at the last index", function () {
         var map = new Immutable.ArrayMapNode(0, [[1,'a'],[2,'b']]);
         var res = map.update(0, 0, 0, 2, Immutable.NOT_SET, {value: false}, {value: false});
         var toComp = new Immutable.ArrayMapNode(0, [[1,'a'],[2,'b']]);
