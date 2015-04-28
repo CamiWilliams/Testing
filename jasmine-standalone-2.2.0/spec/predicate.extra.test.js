@@ -233,9 +233,8 @@ describe("ImmutableIsFunction", function() {
     //   F  |  F  |  T  |  F
     //   F  |  F  |  F  |  F
     it("returns true both objects are equal functions", function() {
-      var valueB = 0;
-      valueB.equals = function() {return 1;};
-      var valueA = valueB;
+      var valueA = new Date(4815162342);
+      var valueB = new Date(4815162342);
       var val = Immutable.is(valueA, valueB);
       expect(val).toBeTruthy();
     });
@@ -252,9 +251,10 @@ describe("ImmutableIsFunction", function() {
     //   F  |  F  |  T  |  F
     //   F  |  F  |  F  |  F
     it("returns true if an object of type function return value and a number are equal", function() {
+      var valueA = 1;
+      valueA.equals = 1;
       var valueB = 1;
-      valueB.equals = function() {return 1;};
-      var val = Immutable.is(1, valueB);
+      var val = Immutable.is(valueA, valueB);
       expect(val).toBeTruthy();
     });
 
@@ -271,10 +271,7 @@ describe("ImmutableIsFunction", function() {
     //   F  |  F  |  F  |  F
     it("returns false you have two objects of type functions that are not equal", function() {
       var valueB = 1;
-      valueB.equals = function() {return 1;};
       var valueA = 0;
-      valueA.equals = function() {return 1;};
-
       var val = Immutable.is(valueA, valueB);
       expect(val).toBeFalsy();
     });
@@ -291,6 +288,8 @@ describe("ImmutableIsFunction", function() {
     //   F  |  F  |  T  |  F
     //   F  |  F  |  F  |  F
     it("returns false you have one objects of type function and one boolean that are both true", function() {
+      var valueA = true;
+      valueA.equals = true;
       var valueB = 1;
       valueB.equals = function() {return true;};
 
@@ -310,6 +309,8 @@ describe("ImmutableIsFunction", function() {
     //   F  |  F  |  T  |  F
     //   F  |  F  |  F  |  F
     it("returns false you have one objects of type function but with equal value", function() {
+      var valueA = 'a';
+      valueA.valueOf = 'a';
       var valueB = 1;
       valueB.equals = function() {return 'a';};
 
