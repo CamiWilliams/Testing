@@ -209,7 +209,11 @@ describe("ImmutableIsFunction", function() {
     //   F  |  T  |  F
     //   F  |  F  |  F  <----
     it("returns false if neither are a function and they are not equal to each other", function() {
-      var val = Immutable.is("hello world", true);
+      var valueA = "hello world";
+      var valueB = true;
+      valueA.valueOf = "hello world";
+      valueB.valueOf = true;
+      var val = Immutable.is(valueA, valueB);
       expect(val).toBeFalsy();
     });
 
