@@ -273,3 +273,31 @@ function wholeSlice(begin, end, size) {
   return (begin === 0 || (size !== undefined && begin <= -size)) &&
     (end === undefined || (size !== undefined && end >= size));
 }
+
+
+
+export function is(valueA, valueB) {
+  if (valueA === valueB || (valueA !== valueA && valueB !== valueB)) {
+    return true;
+  }
+  if (!valueA || !valueB) {
+    return false;
+  }
+  if (typeof valueA.valueOf === 'function' &&
+      typeof valueB.valueOf === 'function') {
+    valueA = valueA.valueOf();
+    valueB = valueB.valueOf();
+    if (valueA === valueB || (valueA !== valueA && valueB !== valueB)) {
+      return true;
+    }
+    if (!valueA || !valueB) {
+      return false;
+    }
+  }
+  if (typeof valueA.equals === 'function' &&
+      typeof valueB.equals === 'function' &&
+      valueA.equals(valueB)) {
+    return true;
+  }
+  return false;
+}
