@@ -5,9 +5,6 @@ describe('EPC-extra', function() {
     var val = Immutable.is(null, 2);
     expect(val).toBeFalsy();
   });
-<<<<<<< HEAD
-})
-=======
 
   // EPC: [1,2,3], [2,3,4], [3,4,9]
   it("2 Equal Ranges", function() {
@@ -62,4 +59,3 @@ describe('EPC-extra', function() {
     expect(Immutable.is(a, b)).toBeFalsy();
   });
 });
->>>>>>> origin/master
