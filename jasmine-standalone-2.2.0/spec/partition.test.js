@@ -1,4 +1,19 @@
 describe("Range", function() {
+  // INPUT SPACE CHARACTERISTIC TESTING : Range Constructor (start, end, step)
+  // Char1 : "Visibility" of Start
+  // Char2 : "Visibility" of End
+  // Char3 : "Visibility" of Step
+
+  // Blocks for Char1 and Char2:
+  // B1 : undefined
+  // B2 : < 0
+  // B3 : >== 0
+
+  // Blocks for Char3:
+  // B1 : undefined
+  // B2 : === 0
+  // B3 : !== 0
+
   it("when start undefined, end undefined, step undefined", function() {
   	var range = Immutable.Range(undefined,undefined,undefined);
   	expect(range.toString()).toBe("Range [ 0..." + Infinity + " ]");
@@ -83,4 +98,7 @@ describe("Range", function() {
     expect(res._end).toBe(0);
     expect(res._step).toBe(1);
   });
+
+
+  // INPUT SPACE CHARACTERISTIC TESTING : Range Constructor (start, end, step)
 })
