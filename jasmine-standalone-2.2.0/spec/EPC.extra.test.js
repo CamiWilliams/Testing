@@ -3,4 +3,22 @@ describe('EPC-extra', function() {
     var val = Immutable.is(null, 2);
     expect(val).toBeFalsy();
   })
+  
+  it("function values", function() {
+  	var func = function(a, b){
+  		return a+b;
+  	};
+  	var func2 = function(a, b){
+  		return a+b;
+  	}
+  	expect(Immutable.is(func,func2).toBeTruthy();
+  });
+
+  it("function values", function() {
+  	var func = function(a, b){
+  		return a+b;
+  	};
+  	expect(Immutable.is(func,func).toBeTruthy();
+  });
+
 })
