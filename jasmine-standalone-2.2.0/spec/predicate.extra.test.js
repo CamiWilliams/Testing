@@ -180,7 +180,9 @@ describe("ImmutableIsFunction", function() {
     //   F  |  T  |  F  <----
     //   F  |  F  |  F
     it("returns false if one of the objects is a number and the other is a function", function() {
+      var valueA = 1;
       var valueB = function() {return true;};
+      valueA.valueOf = 1;
       var val = Immutable.is(1, valueB);
       expect(val).toBeFalsy();
     });
