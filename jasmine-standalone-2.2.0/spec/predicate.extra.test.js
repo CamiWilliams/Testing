@@ -165,11 +165,11 @@ describe("ImmutableIsFunction", function() {
     //   T  |  F  |  F
     //   F  |  T  |  F
     //   F  |  F  |  F
-    it("returns true if one of the objects is a function, the other is a function returning the same thing", function() {
-      var valueA = function() {return true;};
-      valueB = valueA;
+    it("returns false if one of the objects is a function, the other is a function returning the same thing", function() {
+      var valueA = 3;
+      var valueB = 4;
       var val = Immutable.is(valueA, valueB);
-      expect(val).toBeTruthy();
+      expect(val).toBeFalsy();
     });
 
     //   Major is A
