@@ -4904,7 +4904,8 @@
     ArrayMapNode: ArrayMapNode,
     NOT_SET: NOT_SET,
     ValueNode: ValueNode,
-    BitmapIndexedNode: BitmapIndexedNode
+    BitmapIndexedNode: BitmapIndexedNode,
+    wholeSlice: wholeSlice
   };
 
   return Immutable;
